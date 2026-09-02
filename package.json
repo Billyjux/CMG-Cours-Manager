@@ -1,0 +1,17 @@
+{
+  "name": "cours-manager",
+  "version": "1.0.0",
+  "description": "REST API for managing academic courses, chapters, sub-lessons and notes.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.2.1"
+  }
+}
