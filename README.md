@@ -372,7 +372,7 @@ never an error.
 In the UI:
 
 - The dashboard shows a **Continue** card above the grid
-  ("Automatisme Industriel → Chapitre 3"), or nothing at all when `GET` returns
+  ("Linear Algebra → Chapter 3"), or nothing at all when `GET` returns
   `null`. Clicking it opens the course with that chapter expanded and scrolled
   into view.
 - A cold load at `/` shows the **dashboard**, not the bookmark. Opening the
