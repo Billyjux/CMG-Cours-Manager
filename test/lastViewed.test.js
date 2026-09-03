@@ -22,12 +22,12 @@ describe('GET /api/last-viewed', () => {
 
 describe('POST /api/last-viewed', () => {
   test('records a course-level bookmark', async () => {
-    const course = await makeCourse(request, { name: 'Electronique' });
+    const course = await makeCourse(request, { name: 'Physics 101' });
 
     const res = await request('POST', '/api/last-viewed', { course_id: course.id });
     assert.equal(res.status, 200);
     assert.equal(res.body.course_id, course.id);
-    assert.equal(res.body.course_name, 'Electronique');
+    assert.equal(res.body.course_name, 'Physics 101');
     assert.equal(res.body.chapter_id, null);
     assert.equal(res.body.chapter_title, null);
 
@@ -36,7 +36,7 @@ describe('POST /api/last-viewed', () => {
   });
 
   test('records a chapter-level bookmark and resolves its title', async () => {
-    const course = await makeCourse(request, { name: 'Electronique' });
+    const course = await makeCourse(request, { name: 'Physics 101' });
     const chapter = await makeChapter(request, course.id, { title: 'Flip-flops' });
 
     const res = await request('POST', '/api/last-viewed', {

@@ -33,7 +33,7 @@ describe('GET /api/dashboard-summary', () => {
   });
 
   test('merges deadlines and undone reminders, soonest first', async () => {
-    const course = await makeCourse(request, { name: 'Electronique' });
+    const course = await makeCourse(request, { name: 'Physics 101' });
     await makeDeadline(request, course.id, { title: 'Rapport', due_date: day(5) });
     await makeReminder(request, { text: 'Calculatrice', remind_date: day(1), course_id: course.id });
     await makeDeadline(request, course.id, { title: 'Devoir', due_date: day(-3) });

@@ -212,7 +212,7 @@ test('weekly report data', async (t) => {
 test('GET /api/reports/weekly', async (t) => {
   await t.test('returns a downloadable PDF', async () => {
     reset();
-    const course = await makeCourse(request, { name: 'Electronique Numerique' });
+    const course = await makeCourse(request, { name: 'Physics 101' });
     const chapter = await makeChapter(request, course.id);
     await makeSubLesson(request, course.id, chapter.id);
     await makeStudySession(request, course.id, { date: localDay(-1), hours: 1.25 });

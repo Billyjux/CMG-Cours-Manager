@@ -13,13 +13,13 @@ beforeEach(reset);
 describe('POST /api/courses', () => {
   test('creates a course and echoes it back with an id', async () => {
     const res = await request('POST', '/api/courses', {
-      name: 'Electronique Numerique',
+      name: 'Physics 101',
       description: 'Logic gates and flip-flops',
     });
 
     assert.equal(res.status, 201);
     assert.ok(Number.isInteger(res.body.id));
-    assert.equal(res.body.name, 'Electronique Numerique');
+    assert.equal(res.body.name, 'Physics 101');
     assert.equal(res.body.description, 'Logic gates and flip-flops');
     assert.ok(!Number.isNaN(Date.parse(res.body.created_at)));
   });

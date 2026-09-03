@@ -16,14 +16,14 @@ describe('POST /api/courses/:courseId/study-sessions', () => {
     const res = await request('POST', `/api/courses/${course.id}/study-sessions`, {
       date: '2026-09-02',
       hours: 2,
-      note: 'Chapitre 3, exercices',
+      note: 'Practice exercises',
     });
 
     assert.equal(res.status, 201);
     assert.equal(res.body.course_id, course.id);
     assert.equal(res.body.date, '2026-09-02');
     assert.equal(res.body.hours, 2);
-    assert.equal(res.body.note, 'Chapitre 3, exercices');
+    assert.equal(res.body.note, 'Practice exercises');
     assert.ok(res.body.created_at, 'created_at is stamped');
   });
 
