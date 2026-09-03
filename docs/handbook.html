@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Manager Handbook</title>
+<meta name="description" content="How to use the Course Manager study tracker: the workspace, courses and outlines, deadlines and reminders, the two study timers, and where the data lives.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128218;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  /* ------------------------------------------------------------------
+     Tokens. Light is the base set; the dark set is the app's own
+     palette, so the handbook reads as part of the tool it documents.
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --ground: #f6f7f9;
+    --panel: #ffffff;
+    --panel-2: #eef0f4;
+    --line: #dfe2e9;
+    --line-soft: #e9ebf0;
+    --ink: #171a20;
+    --ink-2: #525a68;
+    --ink-3: #7b8494;
+    --accent: #5457ee;
+    --accent-ink: #4338ca;
+    --accent-soft: #ececfd;
+    --accent-line: #c9caf8;
+    --alert: #c62b40;
+    --alert-soft: #fdecee;
+    --alert-line: #f3c4cb;
+    --warn: #97620f;
+    --warn-soft: #fbf1df;
+    --warn-line: #ecd6ab;
+    --lv0: #e4e7ed;
+    --lv1: rgba(84, 87, 238, .28);
+    --lv2: rgba(84, 87, 238, .5);
+    --lv3: rgba(84, 87, 238, .74);
+    --lv4: #5457ee;
+    --shadow: 0 1px 2px rgba(20, 22, 27, .05), 0 10px 28px -14px rgba(20, 22, 27, .18);
+    --radius: 10px;
+    --radius-sm: 6px;
+
+    --display: "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #14161b;
+      --panel: #1a1d24;
+      --panel-2: #21252e;
+      --line: #272b34;
+      --line-soft: #20242c;
+      --ink: #e6e8ec;
+      --ink-2: #98a1ae;
+      --ink-3: #69717e;
+      --accent: #6366f1;
+      --accent-ink: #9294f7;
+      --accent-soft: rgba(99, 102, 241, .15);
+      --accent-line: rgba(99, 102, 241, .38);
+      --alert: #ef4757;
+      --alert-soft: rgba(239, 71, 87, .13);
+      --alert-line: rgba(239, 71, 87, .34);
+      --warn: #e0a145;
+      --warn-soft: rgba(224, 161, 69, .13);
+      --warn-line: rgba(224, 161, 69, .32);
+      --lv0: #1c2029;
+      --lv1: rgba(99, 102, 241, .3);
+      --lv2: rgba(99, 102, 241, .52);
+      --lv3: rgba(99, 102, 241, .76);
+      --lv4: #6366f1;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .32), 0 14px 34px -18px rgba(0, 0, 0, .7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #14161b;
+    --panel: #1a1d24;
+    --panel-2: #21252e;
+    --line: #272b34;
+    --line-soft: #20242c;
+    --ink: #e6e8ec;
+    --ink-2: #98a1ae;
+    --ink-3: #69717e;
+    --accent: #6366f1;
+    --accent-ink: #9294f7;
+    --accent-soft: rgba(99, 102, 241, .15);
+    --accent-line: rgba(99, 102, 241, .38);
+    --alert: #ef4757;
+    --alert-soft: rgba(239, 71, 87, .13);
+    --alert-line: rgba(239, 71, 87, .34);
+    --warn: #e0a145;
+    --warn-soft: rgba(224, 161, 69, .13);
+    --warn-line: rgba(224, 161, 69, .32);
+    --lv0: #1c2029;
+    --lv1: rgba(99, 102, 241, .3);
+    --lv2: rgba(99, 102, 241, .52);
+    --lv3: rgba(99, 102, 241, .76);
+    --lv4: #6366f1;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .32), 0 14px 34px -18px rgba(0, 0, 0, .7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+
+  a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* ---------------------------------------------------------- structure */
+
+  .page {
+    display: grid;
+    grid-template-columns: 186px minmax(0, 1fr);
+    gap: 56px;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 52px 28px 110px;
+  }
+
+  .rail {
+    position: sticky;
+    top: 28px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .rail-label {
+    font-family: var(--display);
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0 10px;
+    margin-bottom: 8px;
+  }
+
+  .rail a {
+    font-family: var(--display);
+    font-size: .875rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    border-left: 2px solid transparent;
+  }
+
+  .rail a:hover { color: var(--ink); background: var(--panel-2); }
+
+  .doc {
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+    min-width: 0;
+  }
+
+  /* -------------------------------------------------------------- hero */
+
+  .hero { display: flex; flex-direction: column; gap: 14px; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.15rem, 1.6rem + 2.2vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -.028em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-size: 1.14rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 54ch;
+    margin: 0;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: .78rem;
+    color: var(--ink-3);
+  }
+
+  .meta b { color: var(--ink-2); font-weight: 500; }
+
+  /* ---------------------------------------------------------- sections */
+
+  .sec { display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 24px; }
+
+  .sec > h2 {
+    font-family: var(--display);
+    font-size: 1.52rem;
+    font-weight: 600;
+    letter-spacing: -.018em;
+    line-height: 1.2;
+    margin: 0;
+    padding-top: 20px;
+    border-top: 2px solid var(--ink);
+    text-wrap: balance;
+  }
+
+  .sec h3 {
+    font-family: var(--display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -.008em;
+    margin: 12px 0 -6px;
+  }
+
+  .sec p { margin: 0; max-width: 68ch; }
+
+  .lede { color: var(--ink-2); }
+
+  /* ----------------------------------------------------------- inlines */
+
+  kbd {
+    font-family: var(--mono);
+    font-size: .76em;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 3px 6px;
+    white-space: nowrap;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: .84em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--display);
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 1px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .chip-alert { color: var(--alert); background: var(--alert-soft); border: 1px solid var(--alert-line); }
+  .chip-warn { color: var(--warn); background: var(--warn-soft); border: 1px solid var(--warn-line); }
+
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* ------------------------------------------------------------- steps */
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 4px 0 0;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 4px 14px;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    grid-row: span 2;
+    font-family: var(--mono);
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius-sm);
+    height: 26px;
+    display: grid;
+    place-items: center;
+  }
+
+  .steps b {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.02rem;
+    align-self: center;
+  }
+
+  .steps span { color: var(--ink-2); font-size: .95rem; }
+
+  /* ------------------------------------------------------------- lists */
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 4px 0 0;
+    max-width: 760px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 6px 20px;
+    padding: 13px 0;
+    border-top: 1px solid var(--line-soft);
+    align-items: baseline;
+  }
+
+  .row:last-child { border-bottom: 1px solid var(--line-soft); }
+
+  .row dt {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: .95rem;
+    margin: 0;
+  }
+
+  .row dd { margin: 0; color: var(--ink-2); font-size: .97rem; }
+
+  .bullets { margin: 0; padding-left: 1.15em; max-width: 68ch; }
+  .bullets li { margin-bottom: 7px; }
+  .bullets li::marker { color: var(--ink-3); }
+
+  /* ------------------------------------------------------------- notes */
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--warn);
+    background: var(--warn-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    max-width: 68ch;
+  }
+
+  .note-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: .82rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--warn);
+  }
+
+  .note p { font-size: .97rem; }
+
+  /* ------------------------------------------------------- course mock */
+
+  .mock {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 12px;
+  }
+
+  .mock-cell {
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--panel-2);
+    padding: 11px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .mock-side { display: flex; flex-direction: column; gap: 12px; }
+
+  .mock-full { margin-top: 12px; }
+
+  .mock-name {
+    font-family: var(--display);
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .mock-line { height: 6px; border-radius: 3px; background: var(--line); }
+  .mock-line.w80 { width: 80%; }
+  .mock-line.w60 { width: 60%; }
+  .mock-line.w45 { width: 45%; }
+  .mock-line.on { background: var(--accent); opacity: .55; }
+
+  .mock-cap {
+    font-size: .87rem;
+    color: var(--ink-3);
+    margin: 10px 0 0;
+    font-style: italic;
+  }
+
+  /* ----------------------------------------------------- activity band */
+
+  .activity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .act-grid {
+    display: grid;
+    grid-template-rows: repeat(7, 10px);
+    grid-auto-flow: column;
+    grid-auto-columns: 10px;
+    gap: 3px;
+  }
+
+  .act-grid i { border-radius: 2px; background: var(--lv0); }
+  .act-grid i.l1 { background: var(--lv1); }
+  .act-grid i.l2 { background: var(--lv2); }
+  .act-grid i.l3 { background: var(--lv3); }
+  .act-grid i.l4 { background: var(--lv4); }
+
+  .act-key {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--display);
+    font-size: .76rem;
+    color: var(--ink-3);
+  }
+
+  .act-key i { width: 10px; height: 10px; border-radius: 2px; display: block; }
+
+  /* ------------------------------------------------------------ footer */
+
+  .end {
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: .92rem;
+    color: var(--ink-3);
+    max-width: 68ch;
+  }
+
+  /* ------------------------------------------------------------ narrow */
+
+  @media (max-width: 900px) {
+    .page {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      padding: 32px 20px 80px;
+    }
+    .rail {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      flex-direction: row;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 10px 0;
+      margin: -10px 0;
+      background: var(--ground);
+      border-bottom: 1px solid var(--line);
+    }
+    .rail-label { display: none; }
+    .rail a { white-space: nowrap; border: 1px solid var(--line); border-left-width: 1px; }
+    .mock-grid { grid-template-columns: minmax(0, 1fr); }
+    .row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="rail" aria-label="Sections">
+    <span class="rail-label">Handbook</span>
+    <a href="#open">Opening it</a>
+    <a href="#shell">The two panes</a>
+    <a href="#overview">The Overview</a>
+    <a href="#course">Inside a course</a>
+    <a href="#time">Tracking time</a>
+    <a href="#keys">Keyboard</a>
+    <a href="#data">Your data</a>
+  </nav>
+
+  <main class="doc">
+
+    <header class="hero">
+      <span class="kicker">Course Manager</span>
+      <h1>How to use the study tracker</h1>
+      <p class="standfirst">Everything the app does, in the order you meet it — from the three
+        keystrokes that open it to the two timers that log your hours.</p>
+      <div class="meta">
+        <span><b>Runs at</b> localhost:3000</span>
+        <span><b>Opens with</b> Windows &rarr; CMG &rarr; Enter</span>
+        <span><b>Data</b> stays on this machine</span>
+      </div>
+    </header>
+
+    <section class="sec" id="open">
+      <h2>Opening it</h2>
+      <p class="lede">Three keystrokes. You never need to find the folder or start a terminal.</p>
+
+      <ol class="steps">
+        <li>
+          <b>Press <kbd>Windows</kbd></b>
+          <span>The Start menu search opens.</span>
+        </li>
+        <li>
+          <b>Type <kbd>CMG</kbd></b>
+          <span>&ldquo;CMG &ndash; Course Manager&rdquo; appears at the top of the results.</span>
+        </li>
+        <li>
+          <b>Press <kbd>Enter</kbd></b>
+          <span>The browser opens at the Overview. If the server was not already running, it
+            starts silently first and the page waits for it.</span>
+        </li>
+      </ol>
+
+      <p>If a server is already running — because you left <code>npm start</code> open in a
+        terminal — CMG uses that one rather than starting a second. Two copies never share the
+        database.</p>
+    </section>
+
+    <section class="sec" id="shell">
+      <h2>The two panes</h2>
+      <p class="lede">Every screen is a sidebar for choosing what to look at, and a workspace
+        that shows it.</p>
+
+      <dl class="rows">
+        <div class="row">
+          <dt>Sidebar</dt>
+          <dd><b>Overview</b> at the top, then every course with its completion bar underneath.
+            Click a course to open it. The bars update the moment you tick something off.</dd>
+        </div>
+        <div class="row">
+          <dt>Top bar</dt>
+          <dd>The sidebar toggle on the left, the action for the current page in the middle
+            (<b>+ New course</b> on the Overview, <b>&larr; All courses</b> inside one), then the
+            pomodoro clock and the distraction-free button.</dd>
+        </div>
+        <div class="row">
+          <dt>Distraction-free</dt>
+          <dd>Hides the sidebar and widens the reading area. <kbd>Esc</kbd> brings it back.</dd>
+        </div>
+        <div class="row">
+          <dt>Confirmations</dt>
+          <dd>Every delete asks first, in a dialog inside the page. <b>Cancel</b> is already
+            focused, and <kbd>Esc</kbd> cancels — so a stray <kbd>Enter</kbd> never destroys
+            anything.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="sec" id="overview">
+      <h2>The Overview</h2>
+      <p class="lede">The landing page, and a read on where things stand across every course at
+        once.</p>
+
+      <dl class="rows">
+        <div class="row">
+          <dt>Continue</dt>
+          <dd>The card at the very top, pointing at the last course and chapter you had open.
+            One click puts you back. Opening the app never jumps you there on its own — you get
+            the Overview first, and go back when you choose to.</dd>
+        </div>
+        <div class="row">
+          <dt>Upcoming</dt>
+          <dd>Deadlines and reminders from every course, closest first. Anything past its date
+            is flagged <span class="chip chip-alert">overdue</span> and anything inside three
+            days <span class="chip chip-warn">due soon</span>. Nothing is hidden for being late.</dd>
+        </div>
+        <div class="row">
+          <dt>Study this week</dt>
+          <dd>Hours logged over the last seven days. Pick a course from the dropdown and press
+            <b>Start studying</b> to run a timer without opening the course first.</dd>
+        </div>
+        <div class="row">
+          <dt>Activity</dt>
+          <dd>A year of days. A square darkens with both the sub-lessons you finished and the
+            hours you logged that day, so a day of only reading and a day of only ticking boxes
+            each show up.</dd>
+        </div>
+        <div class="row">
+          <dt>Course cards</dt>
+          <dd>One per course: how many sub-lessons are done, the completion bar, and any
+            deadline flags. Click through to the course.</dd>
+        </div>
+        <div class="row">
+          <dt>Weekly report</dt>
+          <dd>The quiet button at the top right downloads a PDF: every course's progress, the
+            hours you put in this week, what is due, and which course needs the most attention.</dd>
+        </div>
+      </dl>
+
+      <div class="activity" role="img" aria-label="A strip of activity squares in five shades of indigo, from an empty day to a full one.">
+        <div class="act-grid" aria-hidden="true">
+          <i></i><i class="l1"></i><i></i><i class="l2"></i><i></i><i class="l1"></i><i></i>
+          <i class="l2"></i><i></i><i class="l3"></i><i class="l1"></i><i></i><i></i><i class="l1"></i>
+          <i></i><i class="l4"></i><i class="l2"></i><i></i><i class="l1"></i><i class="l3"></i><i></i>
+          <i class="l1"></i><i></i><i class="l2"></i><i></i><i></i><i class="l1"></i><i class="l2"></i>
+          <i class="l3"></i><i></i><i class="l1"></i><i class="l4"></i><i class="l2"></i><i></i><i></i>
+          <i></i><i class="l2"></i><i></i><i class="l1"></i><i></i><i class="l3"></i><i class="l1"></i>
+          <i class="l1"></i><i></i><i class="l3"></i><i class="l2"></i><i></i><i></i><i class="l2"></i>
+          <i></i><i class="l1"></i><i class="l1"></i><i></i><i class="l2"></i><i></i><i></i>
+          <i class="l2"></i><i class="l3"></i><i></i><i></i><i class="l1"></i><i class="l2"></i><i></i>
+          <i></i><i></i><i class="l2"></i><i class="l1"></i><i></i><i class="l4"></i><i class="l1"></i>
+          <i class="l1"></i><i class="l2"></i><i></i><i class="l3"></i><i></i><i></i><i class="l2"></i>
+          <i></i><i class="l1"></i><i></i><i></i><i class="l2"></i><i class="l1"></i><i></i>
+          <i class="l3"></i><i></i><i class="l2"></i><i class="l1"></i><i class="l4"></i><i></i><i class="l1"></i>
+        </div>
+        <div class="act-key">
+          <span>Less</span>
+          <i style="background: var(--lv0)"></i>
+          <i style="background: var(--lv1)"></i>
+          <i style="background: var(--lv2)"></i>
+          <i style="background: var(--lv3)"></i>
+          <i style="background: var(--lv4)"></i>
+          <span>More</span>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="note-title">Why the grid starts blank</span>
+        <p>The app only began recording <em>which day</em> a sub-lesson was finished when the
+          activity grid was built. Lessons you ticked off before that have no date attached, so
+          they draw nothing — guessing a day would paint activity onto days you did not work.
+          The grid fills in from your next tick onward.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="course">
+      <h2>Inside a course</h2>
+      <p class="lede">The outline on the left, the time-sensitive things stacked on the right,
+        and notes across the bottom.</p>
+
+      <div class="mock" role="img" aria-label="Diagram of a course page: Chapters fills the left column; Deadlines, Reminders and Study time stack in the right column; Notes runs full width underneath.">
+        <div class="mock-grid" aria-hidden="true">
+          <div class="mock-cell">
+            <span class="mock-name">Chapters</span>
+            <span class="mock-line on w80"></span>
+            <span class="mock-line w60"></span>
+            <span class="mock-line w45"></span>
+            <span class="mock-line on w60"></span>
+            <span class="mock-line w80"></span>
+            <span class="mock-line w45"></span>
+          </div>
+          <div class="mock-side">
+            <div class="mock-cell">
+              <span class="mock-name">Deadlines</span>
+              <span class="mock-line w80"></span>
+            </div>
+            <div class="mock-cell">
+              <span class="mock-name">Reminders</span>
+              <span class="mock-line w60"></span>
+            </div>
+            <div class="mock-cell">
+              <span class="mock-name">Study time</span>
+              <span class="mock-line w45"></span>
+            </div>
+          </div>
+        </div>
+        <div class="mock-cell mock-full" aria-hidden="true">
+          <span class="mock-name">Notes &amp; resources</span>
+          <span class="mock-line w80"></span>
+        </div>
+      </div>
+      <p class="mock-cap">On a narrow window the columns stack in the same order, top to
+        bottom.</p>
+
+      <h3>The outline</h3>
+      <p>A course holds chapters, and each chapter holds sub-lessons. Click a chapter heading to
+        fold it away; its count and bar stay visible either way. Each sub-lesson carries a status
+        marker — a hollow outline while it is outstanding, a check once it is done. Click the
+        marker or the title to switch it.</p>
+      <p>Ticking one thing updates five: the marker, the chapter's count, the chapter's bar, the
+        ring at the top of the page and the bar beside the course in the sidebar. Percentages are
+        shown to one decimal, so <span class="num">37.5%</span> means exactly three of eight.</p>
+      <p>Add a sub-lesson from the box at the foot of its chapter, and a chapter from the box at
+        the foot of the list. Both append to the end. Rename and Delete sit on every row.</p>
+
+      <h3>Deadlines and reminders</h3>
+      <p>A deadline is a title and a date — a report, an exam. A reminder is a note to yourself
+        with a date, and a checkbox to tick when it is handled. Both use the same colours as the
+        Overview: <span class="chip chip-alert">overdue</span> once the date has passed,
+        <span class="chip chip-warn">due soon</span> inside three days. Overdue items stay on the
+        list rather than quietly disappearing.</p>
+
+      <h3>Notes &amp; resources</h3>
+      <p>Free text under the whole course, newest first. Paste a link and it becomes clickable.
+        Edit and Delete sit on each note.</p>
+    </section>
+
+    <section class="sec" id="time">
+      <h2>Tracking time</h2>
+      <p class="lede">There are two clocks and they work differently. Both write into the same
+        study log; neither one rounds in your favour.</p>
+
+      <h3>The study timer</h3>
+      <p>In a course's <b>Study time</b> panel, or straight from the Overview. Press
+        <b>Start studying</b> and choose how long you are sitting down for —
+        <span class="num">15</span>, <span class="num">25</span>, <span class="num">45</span>
+        minutes or a number of your own. It counts down.</p>
+      <p>When it reaches zero it <b>freezes and asks</b> rather than logging on its own. A timer
+        hits zero exactly when nobody is at the desk, and a clock left running through that would
+        credit you an hour of studying to an empty room. <b>Add time</b> extends it and carries on
+        from the total you had banked; <b>Stop and log</b> ends the session and writes it down.
+        Dismissing the question decides nothing — the timer stays frozen and the course page keeps
+        offering you both.</p>
+      <p>Stopping early logs what actually ran, not what you aimed for. The timer keeps going while
+        you move between courses, but it lives in memory only: <b>reloading the page loses a
+        running timer</b>.</p>
+
+      <h3>The pomodoro</h3>
+      <p>The clock in the top bar. Press play, choose a focus length, and it runs focus &rarr; a
+        five-minute break, with a fifteen-minute break after every fourth. Only a
+        <em>completed</em> focus interval logs a study session, dated to when that interval
+        actually ended — so one that finishes at 23:58, or while the app was shut, lands on the day
+        you worked it.</p>
+      <p>It credits whichever course is open at the moment the interval finishes, so starting on
+        the Overview and walking into a course still works. With no course open it says so and logs
+        nothing. The next interval is always left stopped, never auto-started. Unlike the study
+        timer, the pomodoro survives a reload.</p>
+
+      <div class="note">
+        <span class="note-title">Do not run both at once</span>
+        <p>The two clocks do not know about each other. Running the study timer and the pomodoro
+          over the same stretch logs that time twice, and your weekly total will be wrong. Pick
+          one per sitting.</p>
+      </div>
+
+      <h3>Logging by hand</h3>
+      <p>The form under the timer takes a date, a number of hours and an optional note — for a
+        session you did away from the app. Hours accept decimals, up to <span class="num">24</span>
+        in a day.</p>
+    </section>
+
+    <section class="sec" id="keys">
+      <h2>Keyboard</h2>
+      <p class="lede">Three shortcuts. They stand down while you are typing in a field.</p>
+
+      <dl class="rows">
+        <div class="row">
+          <dt><kbd>N</kbd></dt>
+          <dd>New course. Works on the Overview, where the button carries the same hint; inside a
+            course it does nothing.</dd>
+        </div>
+        <div class="row">
+          <dt><kbd>Ctrl</kbd> + <kbd>B</kbd></dt>
+          <dd>Show or hide the sidebar.</dd>
+        </div>
+        <div class="row">
+          <dt><kbd>Esc</kbd></dt>
+          <dd>Close the dialog that is open. With none open, leaves distraction-free mode.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="sec" id="data">
+      <h2>Your data</h2>
+      <p class="lede">One file, on this machine, and nothing else.</p>
+      <ul class="bullets">
+        <li>Everything lives in <code>data/courses.db</code> — courses, chapters, sub-lessons,
+          notes, deadlines, reminders and every logged session.</li>
+        <li>To back it up, <b>stop the server first</b>, then copy the file. Copying it while the
+          app is running can capture a half-written database.</li>
+        <li>Deleting a course removes everything under it, which is why that confirmation names
+          what is about to go.</li>
+        <li>There is no account and no sync. Nothing is sent anywhere.</li>
+      </ul>
+      <p class="end">Dates throughout are plain calendar days read against your local clock, not
+        timestamps — so a deadline on the 6th is the 6th here, whatever the timezone.</p>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

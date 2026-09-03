@@ -9,6 +9,10 @@ Express 5 + SQLite on the back, vanilla ES-module JavaScript on the front.
 No ORM, no build step, no bundler, no accounts, and nothing leaves the machine
 it runs on.
 
+A full user guide lives in [`docs/handbook.html`](docs/handbook.html) — every
+screen, both timers, and where the data sits. Open it in a browser after
+cloning; GitHub serves raw HTML as source rather than rendering it.
+
 ## What it does
 
 - **Outline** — courses > chapters > sub-lessons, in a collapsible accordion.
