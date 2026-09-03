@@ -6,6 +6,8 @@ const {
 } = require('../util/validate');
 const chaptersRouter = require('./chapters');
 const notesRouter = require('./notes');
+const studySessionsRouter = require('./studySessions');
+const deadlinesRouter = require('./deadlines');
 
 const router = express.Router();
 
@@ -24,6 +26,13 @@ const stmt = {
     FROM chapters c
     LEFT JOIN sub_lessons sl ON sl.chapter_id = c.id
     WHERE c.course_id = ?
+  `),
+  studyTime: db.prepare(`
+    SELECT
+      COALESCE(SUM(hours), 0) AS total_hours,
+      COUNT(*)                AS session_count
+    FROM study_session
+    WHERE course_id = ?
   `),
 };
 
@@ -84,7 +93,21 @@ router.get('/:courseId/progress', wrap((req, res) => {
   });
 }));
 
+router.get('/:courseId/study-time', wrap((req, res) => {
+  const course = loadCourse(req.params.courseId);
+  const { total_hours: totalHours, session_count: sessionCount } = stmt.studyTime.get(course.id);
+
+  res.json({
+    course_id: course.id,
+    session_count: sessionCount,
+    // Summing REALs drifts (0.1 + 0.2), so round to the 2dp the API accepts.
+    total_hours: Math.round(totalHours * 100) / 100,
+  });
+}));
+
 router.use('/:courseId/chapters', chaptersRouter);
 router.use('/:courseId/notes', notesRouter);
+router.use('/:courseId/study-sessions', studySessionsRouter);
+router.use('/:courseId/deadlines', deadlinesRouter);
 
 module.exports = router;

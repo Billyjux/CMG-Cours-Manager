@@ -1,6 +1,7 @@
-import { api } from './api.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderCourse } from './views/course.js';
+import { initShell, setActiveCourse } from './shell.js';
+import { initPomodoro } from './pomodoro.js';
 
 const root = document.getElementById('app');
 const actions = document.getElementById('topbar-actions');
@@ -15,45 +16,32 @@ function route() {
   const hash = window.location.hash.replace(/^#/, '') || '/';
   const match = hash.match(/^\/courses\/(\d+)(?:\/chapters\/(\d+))?$/);
 
-  window.scrollTo(0, 0);
+  // The workspace pane scrolls, not the document, so resetting the scroll
+  // position on navigation means scrolling that element.
+  root.scrollTop = 0;
   if (match) {
-    renderCourse(root, actions, Number(match[1]), match[2] ? Number(match[2]) : null);
+    const courseId = Number(match[1]);
+    setActiveCourse(courseId);
+    renderCourse(root, actions, courseId, match[2] ? Number(match[2]) : null);
   } else {
+    setActiveCourse(null);
     renderDashboard(root, actions);
   }
 }
 
-/**
- * Cold start. If the app is opening at the dashboard and a bookmark exists,
- * jump straight back into it. This lives outside route() on purpose: it runs
- * once per page load, so navigating back to "/" later shows the real
- * dashboard instead of bouncing the user into a course again.
+/*
+ * Cold start lands on the dashboard, deliberately. The bookmark is still
+ * recorded and still offered — as the Continue card at the top of the
+ * overview — but opening the app is not the same thing as asking to go back
+ * to where you were, and a redirect that fires before the overview can be
+ * read takes that choice away. Resuming is one click; nothing resumes on its
+ * own. A link straight to #/courses/:id still opens that course, so this only
+ * governs the empty-hash case.
  */
-async function start() {
-  const atDashboard = !window.location.hash || window.location.hash === '#/';
-
-  if (atDashboard) {
-    let last = null;
-    try {
-      last = await api.getLastViewed();
-    } catch {
-      // A failed bookmark lookup must never block the app; fall through to
-      // the normal dashboard.
-    }
-
-    if (last) {
-      const target = last.chapter_id
-        ? `#/courses/${last.course_id}/chapters/${last.chapter_id}`
-        : `#/courses/${last.course_id}`;
-      // replaceState updates the URL without firing hashchange (so the router
-      // runs exactly once) and without leaving a dashboard entry to bounce
-      // back to.
-      window.history.replaceState(null, '', target);
-    }
-  }
-
-  route();
-}
 
 window.addEventListener('hashchange', route);
-start();
+// The shell renders around the views, so it comes up first.
+initShell();
+// After the shell: the widget asks it which course is open.
+initPomodoro();
+route();

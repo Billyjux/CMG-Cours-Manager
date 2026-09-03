@@ -3,6 +3,10 @@ const express = require('express');
 const { notFoundHandler, errorHandler } = require('./middleware/errors');
 const coursesRouter = require('./routes/courses');
 const lastViewedRouter = require('./routes/lastViewed');
+const remindersRouter = require('./routes/reminders');
+const dashboardSummaryRouter = require('./routes/dashboardSummary');
+const activitySummaryRouter = require('./routes/activitySummary');
+const reportsRouter = require('./routes/reports');
 
 const app = express();
 
@@ -22,6 +26,10 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use('/api/courses', coursesRouter);
 app.use('/api/last-viewed', lastViewedRouter);
+app.use('/api/reminders', remindersRouter);
+app.use('/api/dashboard-summary', dashboardSummaryRouter);
+app.use('/api/activity-summary', activitySummaryRouter);
+app.use('/api/reports', reportsRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

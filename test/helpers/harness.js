@@ -26,6 +26,9 @@ const app = require('../../src/app');
 function reset() {
   db.exec(`
     DELETE FROM last_viewed;
+    DELETE FROM study_session;
+    DELETE FROM deadline;
+    DELETE FROM reminder;
     DELETE FROM notes;
     DELETE FROM sub_lessons;
     DELETE FROM chapters;

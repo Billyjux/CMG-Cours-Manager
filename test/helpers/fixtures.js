@@ -40,6 +40,33 @@ async function makeNote(request, courseId, payload = {}) {
   return expect(res, 201);
 }
 
+async function makeStudySession(request, courseId, payload = {}) {
+  const res = await request('POST', `/api/courses/${courseId}/study-sessions`, {
+    date: '2026-09-01',
+    hours: 1.5,
+    ...payload,
+  });
+  return expect(res, 201);
+}
+
+async function makeDeadline(request, courseId, payload = {}) {
+  const res = await request('POST', `/api/courses/${courseId}/deadlines`, {
+    title: 'Test deadline',
+    due_date: '2026-09-15',
+    ...payload,
+  });
+  return expect(res, 201);
+}
+
+async function makeReminder(request, payload = {}) {
+  const res = await request('POST', '/api/reminders', {
+    text: 'Test reminder',
+    remind_date: '2026-09-15',
+    ...payload,
+  });
+  return expect(res, 201);
+}
+
 /** A course with one chapter holding `count` sub-lessons, all incomplete. */
 async function makeTree(request, count = 4) {
   const course = await makeCourse(request);
@@ -51,4 +78,14 @@ async function makeTree(request, count = 4) {
   return { course, chapter, lessons };
 }
 
-module.exports = { expect, makeCourse, makeChapter, makeSubLesson, makeNote, makeTree };
+module.exports = {
+  expect,
+  makeCourse,
+  makeChapter,
+  makeSubLesson,
+  makeNote,
+  makeStudySession,
+  makeDeadline,
+  makeReminder,
+  makeTree,
+};

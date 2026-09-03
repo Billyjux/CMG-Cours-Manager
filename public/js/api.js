@@ -77,6 +77,35 @@ export const api = {
       is_complete: isComplete,
     }),
 
+  // study sessions
+  listStudySessions: (courseId) => request('GET', `/courses/${courseId}/study-sessions`),
+  createStudySession: (courseId, payload) =>
+    request('POST', `/courses/${courseId}/study-sessions`, payload),
+  updateStudySession: (courseId, sessionId, payload) =>
+    request('PATCH', `/courses/${courseId}/study-sessions/${sessionId}`, payload),
+  deleteStudySession: (courseId, sessionId) =>
+    request('DELETE', `/courses/${courseId}/study-sessions/${sessionId}`),
+  getStudyTime: (courseId) => request('GET', `/courses/${courseId}/study-time`),
+
+  // deadlines
+  listDeadlines: (courseId) => request('GET', `/courses/${courseId}/deadlines`),
+  createDeadline: (courseId, payload) => request('POST', `/courses/${courseId}/deadlines`, payload),
+  updateDeadline: (courseId, deadlineId, payload) =>
+    request('PATCH', `/courses/${courseId}/deadlines/${deadlineId}`, payload),
+  deleteDeadline: (courseId, deadlineId) =>
+    request('DELETE', `/courses/${courseId}/deadlines/${deadlineId}`),
+
+  // reminders (top level; course_id is optional on the server)
+  listReminders: (courseId) =>
+    request('GET', courseId === undefined ? '/reminders' : `/reminders?course_id=${courseId}`),
+  createReminder: (payload) => request('POST', '/reminders', payload),
+  updateReminder: (reminderId, payload) => request('PATCH', `/reminders/${reminderId}`, payload),
+  deleteReminder: (reminderId) => request('DELETE', `/reminders/${reminderId}`),
+
+  // read-only aggregation for the dashboard overview
+  getDashboardSummary: () => request('GET', '/dashboard-summary'),
+  getActivitySummary: (days = 365) => request('GET', `/activity-summary?days=${days}`),
+
   // "resume where I left off" bookmark (a single server-side row)
   getLastViewed: () => request('GET', '/last-viewed'),
   setLastViewed: (courseId, chapterId = null) =>

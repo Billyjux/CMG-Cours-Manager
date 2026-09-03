@@ -1,6 +1,29 @@
+# dependencies
 node_modules/
+
+# the SQLite database and its write-ahead log — generated at first run,
+# and on a real install it holds personal study data
 data/
 *.db
 *.db-wal
 *.db-shm
+
+# local environment overrides (see .env.example for the variables)
 .env
+.env.local
+
+# agent-facing working notes: written about this machine and this
+# checkout, not about the app
+HANDOFF.md
+
+# editor / OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# build and test scratch
+coverage/
+*.log
+npm-debug.log*

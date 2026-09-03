@@ -7,6 +7,9 @@ const stmt = {
   chapter: db.prepare('SELECT * FROM chapters WHERE id = ?'),
   subLesson: db.prepare('SELECT * FROM sub_lessons WHERE id = ?'),
   note: db.prepare('SELECT * FROM notes WHERE id = ?'),
+  studySession: db.prepare('SELECT * FROM study_session WHERE id = ?'),
+  deadline: db.prepare('SELECT * FROM deadline WHERE id = ?'),
+  reminder: db.prepare('SELECT * FROM reminder WHERE id = ?'),
 };
 
 function loadCourse(courseId) {
@@ -44,4 +47,38 @@ function loadNote(noteId, course) {
   return note;
 }
 
-module.exports = { loadCourse, loadChapter, loadSubLesson, loadNote };
+function loadStudySession(sessionId, course) {
+  const id = readId(sessionId, 'sessionId');
+  const session = stmt.studySession.get(id);
+  if (!session || session.course_id !== course.id) {
+    throw notFound(`Study session ${id} not found in course ${course.id}`);
+  }
+  return session;
+}
+
+function loadDeadline(deadlineId, course) {
+  const id = readId(deadlineId, 'deadlineId');
+  const deadline = stmt.deadline.get(id);
+  if (!deadline || deadline.course_id !== course.id) {
+    throw notFound(`Deadline ${id} not found in course ${course.id}`);
+  }
+  return deadline;
+}
+
+/** Reminders are top level, so there is no parent to scope this by. */
+function loadReminder(reminderId) {
+  const id = readId(reminderId, 'reminderId');
+  const reminder = stmt.reminder.get(id);
+  if (!reminder) throw notFound(`Reminder ${id} not found`);
+  return reminder;
+}
+
+module.exports = {
+  loadCourse,
+  loadChapter,
+  loadSubLesson,
+  loadNote,
+  loadStudySession,
+  loadDeadline,
+  loadReminder,
+};

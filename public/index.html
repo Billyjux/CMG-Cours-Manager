@@ -8,15 +8,34 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#/">
-      <span class="brand-mark">📚</span>
-      <span>Course Manager</span>
-    </a>
-    <nav class="topbar-actions" id="topbar-actions"></nav>
-  </header>
+  <div class="shell" id="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Courses">
+      <div class="sidebar-head">
+        <a class="brand" href="#/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">Course Manager</span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      <div class="sidebar-foot" id="sidebar-foot"></div>
+    </aside>
 
-  <main id="app" class="container" aria-live="polite"></main>
+    <div class="workspace">
+      <header class="workbar">
+        <button class="icon-btn" id="toggle-sidebar" type="button"
+                title="Toggle sidebar (Ctrl+B)" aria-label="Toggle sidebar">
+          <span class="icon-bars" aria-hidden="true"></span>
+        </button>
+        <nav class="workbar-actions" id="topbar-actions"></nav>
+        <div class="pomo" id="pomodoro"></div>
+        <button class="icon-btn" id="toggle-focus" type="button"
+                title="Distraction-free mode (Esc to exit)" aria-label="Distraction-free mode">
+          <span class="icon-focus" aria-hidden="true"></span>
+        </button>
+      </header>
+      <main id="app" class="workspace-body" aria-live="polite"></main>
+    </div>
+  </div>
 
   <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
 
